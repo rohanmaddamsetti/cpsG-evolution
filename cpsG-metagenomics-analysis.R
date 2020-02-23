@@ -419,3 +419,24 @@ log.small.sv.indel.nonsen.rando.plot <- plot.random.subsets(sv.indel.nonsense.ge
 
 ## TODO: plot curves for manB and cpsG in order to do hypothesis test for purifying
 ## selection on these loci.
+
+##########################################################################
+## overall, no evidence of selection on dS.
+## randomization tests show neutrality cannot be rejected when
+## looking at dS density per gene (p = 0.14).
+
+## to what extent is there evidence of intragenomic recombination between partially replicated chromosomes? intragenomic recombination/gene conversion?
+## candidates for gene conversion: multiple dS in the same Population, in the same gene,
+## and in the same cohort of mutations.
+dS.in.same.cohort <- gene.dS.mutation.data %>% group_by(Population,Gene,t0,tf) %>% summarize(cohort=n()) %>% arrange(desc(cohort)) %>% filter(cohort>1) %>%
+    filter(Gene!='ydfQ')
+
+## might these be larger recombination events? Examine all kinds of mutations, where
+## multiple mutations in the same gene in the same cohort.
+multiple.muts.in.same.cohort <- gene.mutation.data %>% group_by(Population,Gene,t0,tf) %>% summarize(cohort=n()) %>% filter(cohort>1) %>% arrange(Population,t0,tf) %>% arrange(Gene)
+
+## parallelism in dS at the same position in the same population
+## we get exactly one gene: ydfQ--
+## BUT THIS IS A BUG TO BE FIXED, CAUSED BY TWO LOCI WITH THE SAME BLATTNER NUMBER.
+bug.to.fix <- gene.dS.mutation.data %>% group_by(Population,Gene,Position) %>% summarize(count=n()) %>% arrange(desc(count)) %>% filter(count>1)
+buggy.ydfQ.mutations <- gene.dS.mutation.data %>% filter(Gene=='ydfQ')
