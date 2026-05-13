@@ -1,0 +1,50 @@
+## manB-cpsG-LTEE-genomics-metagenomics-notes.txt by Rohan Maddamsetti.
+
+## cpsG is not essential in the KEIO collection.
+## there is a hit to growth in MOPS minimal media when knocked out.
+
+## NOTICE HOW manB IS ABSENT FROM K-12!
+KEIO.data <- read.csv("../data/KEIO_Essentiality.csv", header=TRUE,as.is=TRUE) |>
+  select(-JW_id)
+
+## LTEE mutation calls in manB and cpsG are affected by the following masks for repetitive regions,
+## and so cannot be interpreted reliably.
+
+## manB is affected by the following MASKS:
+## REL606 location of manB: complement(2031433..2032797)
+## MASK	222	.	REL606	2031538	93
+## MASK	223	.	REL606	2031650	239
+## MASK	224	.	REL606	2031911	299
+## MASK	225	.	REL606	2032280	431
+
+## cpsG is affected by the following MASKS:
+## REL606 location of cpsG: complement(2054726..2056096)
+## MASKS in ../data/REL606.L20.G15.P0.M35.RM-edited.mask.gd:
+## MASK	227	.	REL606	2054831	93
+## MASK	228	.	REL606	2054943	239
+## MASK	229	.	REL606	2055204	299
+## MASK	230	.	REL606	2055573	431
+
+## THIS MEANS THAT SIGNALS OF PURIFYING SELECTION HERE ARE AFFECTED BY
+## NO MUTATIONS CALLED IN THESE REPETITIVE REGIONS, AND ARE LIKELY ARTIFACTUAL.
+
+## See Section 4.3.1 "Removing mutations in repetitive regions of the genome"
+## in Ben Good's LTEE metagenomics paper for more details.
+## ## This excludes genes in repetitive regions of the genome.
+
+## 4.3.1 Removing mutations in repetitive regions of the genome
+## We excluded mutations that arose in repetitive regions of the genome, as these can be diﬃcult
+## to resolve using short-read data. A site was marked as repetitive if (1) it was annotated as a
+## repeat region in the REL606 reference, (2) it was present in the set of masked regions compiled
+## by Tenaillon et al. [3], or (3) it fell within the putative prophage element identified by Tenaillon
+## et al. [3] (REL606 genome coordinates 880528–904682). Approximately 2 ×105 sites (≈4% of the
+## reference genome) matched one of these criteria and were excluded from all downstream analyses.
+
+## This filtering is done in my python script printEcoliIDs.py.
+## Do by running:
+## python printEcoliIDs.py -i ../data/REL606.7.gbk --mask ../data/REL606.L20.G15.P0.M35.RM-edited.mask.gd > ../results/REL606_IDs.csv
+
+## This filtering is done in my python script printEcoliIDs.py.
+
+## the last domain of cpsG was deleted by a parallel large deletion.
+
